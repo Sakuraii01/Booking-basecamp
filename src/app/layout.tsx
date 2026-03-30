@@ -22,8 +22,16 @@ const prompt = Prompt({
 
 export const metadata: Metadata = {
   title: "UrbanBooking",
+  description: "จองห้องประชุมในพื้นที่ Base Camp 24",
   icons: {
     icon: "/booking-mini-logo.png", // Points to public/booking-logo.png
+  },
+  openGraph: {
+    title: "UrbanBooking",
+    description: "จองห้องประชุมในพื้นที่ Base Camp 24",
+    url: "https://booking.urbandata-th.com/",
+    siteName: "UrbanBooking",
+    type: "website",
   },
 };
 
