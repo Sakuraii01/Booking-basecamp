@@ -1,0 +1,91 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  name      String
+  role      UserRole @default(USER)
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model Room {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  bookings       Booking[]
+  availabilities RoomAvailability[]
+}
+
+model Booking {
+  id                Int           @id @default(autoincrement())
+  roomId            Int
+  name              String
+  company           String
+  email             String
+  tel               String
+  numberOfAttendees Int
+  date              DateTime
+  startTime         DateTime
+  endTime           DateTime
+  details           String?
+  status            BookingStatus @default(PENDING)
+  lastestMailSent   DateTime?
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+
+  bookingConfirmations BookingConfirmations[]
+  room                 Room                   @relation(fields: [roomId], references: [id])
+
+  @@index([roomId])
+}
+
+model BookingConfirmations {
+  id        Int     @id @default(autoincrement())
+  bookingId Int
+  token     String
+  isSend    Boolean @default(false)
+
+  booking Booking @relation(fields: [bookingId], references: [id])
+}
+
+model RoomAvailability {
+  id        Int      @id @default(autoincrement())
+  roomId    Int
+  date      DateTime
+  startTime DateTime
+  endTime   DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  room Room @relation(fields: [roomId], references: [id])
+
+  @@index([roomId])
+}
+
+enum BookingStatus {
+  CONFIRMED
+  PENDING
+  CANCELLED
+}
+
+enum UserRole {
+  ADMIN
+  USER
+}
