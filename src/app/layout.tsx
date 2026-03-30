@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   title: "UrbanBooking",
   description: "จองห้องประชุมในพื้นที่ Base Camp 24",
   icons: {
-    icon: "/booking-mini-logo.png", // Points to public/booking-logo.png
+    icon: "/booking-mini-logo.png",
   },
   openGraph: {
     title: "UrbanBooking",
